@@ -114,11 +114,10 @@ shinyServer(function(input, output) {
     
     
     ## Set parameters in dataset
-    data$TVKA <- ka
-    data$TVCL <- cl
-    data$TVVC <- vd
-    data$TVVP1<- vd2
-    data$TVQ1 <- q1
+    data$BW <- bw
+    data$CW <- cw
+    data$PNA <- pna
+    data$NSAID <- nsaid
     
     
     
