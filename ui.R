@@ -31,13 +31,12 @@ shinyUI(fluidPage(
       numericInput("maxprob", label='Maximal probability', value = 0.75,min=0,max=1),
       
       br(),
-      h4("Population parameters"),
+      h4("Patient covariates"),
       hr(),
-      numericInput("ka", label='Absorption rate constant', value = 10,min=0),
-      numericInput("v1", label='Central volume', value = 10,min=0),
-      numericInput("v2", label='Peripheral volume', value = 10,min=0),
-      numericInput("q1", label='Inter-compartmental clearance', value = 10,min=0),
-      numericInput("cl", label='Clearance', value = 10,min=0),
+      numericInput("bw", label='Birth weight (g)', value = 10,min=0),
+      numericInput("cw", label='Current weight (g)', value = 10,min=0),
+      numericInput("pna", label='Postnatal age (days)', value = 10,min=0),
+      numericInput("nsaid", label='Ibuprofen administration?', value = 1,min=0), # to be changed to multiple choice as it can only be 0 or 1
       
       br(),
       h4("IIV"),
