@@ -25,16 +25,6 @@ shinyServer(function(input, output) {
   
   sim_dataframe <- reactive({
     
-    ###############################################
-    ### Dosing
-    if(input$admin =='Depot'){
-      oral <- T
-    }else{
-      oral <- F
-    }
-    
-    dose <- input$dose
-    
     
     ###############################################
     ## Patient covariates
@@ -43,7 +33,15 @@ shinyServer(function(input, output) {
     pna  <- input$pna # postnatal age
     nsaid <- input$nsaid # ibuprofen administration
     
+    ###############################################
+    ### Dosing
+    if(input$admin =='Depot'){
+      oral <- T
+    }else{
+      oral <- F
+    }
     
+    dose <- input$dose * cw/1000 # dose in mg/kg
     
     
     ###############################################
@@ -84,7 +82,7 @@ shinyServer(function(input, output) {
       Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
     }else{
       ## IV BOLUS
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = 0,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = dose,time=0)) 
     }
     
     
