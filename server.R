@@ -31,7 +31,7 @@ shinyServer(function(input, output) {
     bw  <- input$bw # birth weight
     cw  <- input$cw # current weight
     pna  <- input$pna # postnatal age
-    nsaid <- input$select # ibuprofen administration
+    nsaid <- input$nsaid # ibuprofen administration
     
     ###############################################
     ### Dosing
@@ -41,7 +41,10 @@ shinyServer(function(input, output) {
       inf <- F
     }
     
-    dose <- input$dose * cw/1000 # dose in mg/kg
+    dose <- input$dose * (cw/1000) # dose in mg/kg
+    ii1 <- input$ii1 # dosing interval in hours
+    d2 <- input$d2 # infusion duration (min)
+    dur <- d2 / 60 # duration in hours
     
     
     ###############################################
@@ -79,10 +82,10 @@ shinyServer(function(input, output) {
     
     if(inf){
       ## I.V. infusion for 1 h
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=ii1, cmt=1, addl=9999, amt=dose, rate = dose/dur,time=0)) 
     }else{
       ## IV BOLUS
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=ii1, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
     }
     
     
@@ -184,6 +187,12 @@ sum_stat <- reactive({
       geom_line(size=2) +
       
       # scale_y_log10()+
+      
+      ## Add therapeutic target:
+      geom_abline(slope = 0, intercept = 35, col = "red", linetype = "dashed")+
+      geom_abline(slope = 0, intercept = 24, col = "green", linetype = "dashed")+
+      geom_abline(slope = 0, intercept = 3, col = "red", linetype = "dashed")+
+      geom_abline(slope = 0, intercept = 1.5, col = "green", linetype = "dashed")+
       
       # Set axis and theme
       ylab(paste("Concentration",sep=""))+
