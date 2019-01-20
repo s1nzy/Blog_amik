@@ -37,7 +37,8 @@ shinyUI(fluidPage(
       numericInput("bw", label='Birth weight (g)', value = 1500,min=0),
       numericInput("cw", label='Current weight (g)', value = 1500,min=0),
       numericInput("pna", label='Postnatal age (days)', value = 2,min=0),
-      numericInput("nsaid", label='Ibuprofen administration?', value = 1,min=0), # to be changed to multiple choice as it can only be 0 or 1
+      selectInput("select", h4("Ibuprofen co-administration?"), 
+                  choices = list("Yes" = 1, "No" = 0), selected = 0), # to be changed to multiple choice as it can only be 0 or 1
       
       br(),
       h4("IIV"),

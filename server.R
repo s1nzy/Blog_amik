@@ -31,7 +31,7 @@ shinyServer(function(input, output) {
     bw  <- input$bw # birth weight
     cw  <- input$cw # current weight
     pna  <- input$pna # postnatal age
-    nsaid <- input$nsaid # ibuprofen administration
+    nsaid <- input$select # ibuprofen administration
     
     ###############################################
     ### Dosing
