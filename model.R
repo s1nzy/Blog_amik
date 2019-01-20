@@ -33,7 +33,9 @@ nsaid <- 0 # Ibuprofen administration (1 - yes, 0 - no)
 ### Dosing
 
 inf <- T
-dose <- 100 * (cw/1000) # mg/kg
+dose <- 16 * (cw/1000) # mg/kg
+d2 <- 20 # min 
+dur <- d2 / 60 # duration in hours 
 
 ###############################################
 ## Parameter estimates
@@ -70,8 +72,8 @@ maxprobs=0.9
 ############# Set Dosing objects
 
 if(inf){
-  ## IV infusion for 1 h
-  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose,time=0)) 
+  ## IV infusion 
+  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose/dur,time=0)) 
 }else{
   ## IV BOLUS
   Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
@@ -138,6 +140,11 @@ plot_pk <- ggplot(sum_stat, aes(x=time,y=Median_C)) +
   geom_line(size=2) +
   
   # scale_y_log10()+
+  ## Add therapeutic target:
+  geom_abline(slope = 0, intercept = 35, col = "red", linetype = "dashed")+
+  geom_abline(slope = 0, intercept = 24, col = "green", linetype = "dashed")+
+  geom_abline(slope = 0, intercept = 3, col = "red", linetype = "dashed")+
+  geom_abline(slope = 0, intercept = 1.5, col = "green", linetype = "dashed")+
   
   # Set axis and theme
   ylab(paste("Concentration",sep=""))+
