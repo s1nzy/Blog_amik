@@ -43,7 +43,7 @@ shinyUI(fluidPage(
       br(),
       h4("IIV"),
       hr(),
-      numericInput("etaka", label='ETA - Absorption rate constant', value = 10,min=0),
+      #numericInput("etaka", label='ETA - Absorption rate constant', value = 10,min=0),
       numericInput("etav1", label='ETA - Central volume', value = 10,min=0),
       numericInput("etav2", label='ETA - Peripheral volume', value = 10,min=0),
       numericInput("etaq1", label='ETA - Inter-compartmental clearance', value = 10,min=0),
