@@ -1,25 +1,28 @@
 $PARAM
-// typical parameters
-//TVKA = 0, 
-TVCL = 0.062, TVVC = 0.918, TVVP1 = 0.918, TVQ1 = 0.062
 
-// covariates 
+// typical parameters
+
+TVCL = 0.0493, TVVC = 0.833, TVVP1 = 0.833, TVQ1 = 0.415
+
+// covariate relationship parameters
+EBW = 1.134, SPNA = 0.213, ECW = 0.919, IBU = 0.838
+
+// initial covariates 
 BW = 1000, CW = 1000, PNA = 1, NSAID = 0
 
-//$CMT GUT CENT P1
 $CMT CENT P1
 
 
 $MAIN
-//double KA = TVKA * exp(ETA(1));
-double CL = TVCL * pow(BW/1750, 1.1) * (1 + 0.128*(PNA/2)) * exp(ETA(1));
-double VC = TVVC * pow(CW/1760,0.929) * exp(ETA(2));
-double VP1 = TVVP1* pow(CW/1760,0.929) * exp(ETA(3));
-double Q1 = 0.785 * TVQ1 * pow(BW/1750, 1.1) * (1 + 0.128*(PNA/2))*exp(ETA(4));
+
+double CL = TVCL * pow(BW/1750, EBW) * (1 + SPNA*(PNA/2)) * exp(ETA(1));
+double VC = TVVC * pow(CW/1760,ECW) * exp(ETA(2));
+double VP1 = TVVP1* pow(CW/1760,ECW) * exp(ETA(3));
+double Q1 = TVQ1 * TVCL * pow(BW/1750, EBW) * (1 + SPNA*(PNA/2))*exp(ETA(4));
 
 if(NSAID == 1) { 
-    CL = CL * 0.838;
-    Q1 = Q1 * 0.838;
+    CL = CL * IBU;
+    Q1 = Q1 * IBU;
   }
 
 double k10 = CL/VC;
@@ -34,11 +37,8 @@ $SIGMA @labels PROP ADD
 0 0
 
 $ODE
-//dxdt_GUT = 0;
-//dxdt_CENT = KA*GUT -k12*CENT+k21*P1 - k10*CENT;
 dxdt_CENT = -k12*CENT+k21*P1 - k10*CENT;
 dxdt_P1 = k12*CENT-k21*P1;
-
 
 
 $TABLE
