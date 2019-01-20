@@ -37,12 +37,11 @@ shinyServer(function(input, output) {
     
     
     ###############################################
-    ## Parameter estimates 
-    ka  <- input$ka # Absorption rate constant
-    cl  <- input$cl # Clearance
-    vd  <- input$v1 # Central distribution volume
-    vd2 <- input$v2 # Peripheral distribution volume
-    q1  <- input$q1 # Inter-compartmental clearance (set to 0 for 1-cmt model)
+    ## Patient covariates
+    bw  <- input$bw # birth weight
+    cw  <- input$cw # current weight
+    pna  <- input$pna # postnatal age
+    nsaid <- input$nsaid # ibuprofen administration
     
     
     
@@ -52,9 +51,9 @@ shinyServer(function(input, output) {
     
     etaka  <- input$etaka
     etacl  <- input$etacl
-    etavd  <- input$v1
-    etavd2 <- input$v2
-    etaq1  <- input$q1
+    etavd  <- input$etav1
+    etavd2 <- input$etav2
+    etaq1  <- input$etaq1
     
     
     
@@ -97,7 +96,7 @@ shinyServer(function(input, output) {
     
     ######################################################################
     ### Load in model for mrgsolve
-    mod <- mread_cache("popPK")
+    mod <- mread_cache("amik_popPK")
     
     
     
