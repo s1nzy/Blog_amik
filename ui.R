@@ -22,6 +22,7 @@ shinyUI(fluidPage(
       hr(),
       selectInput('admin', label='Route of administration', c("Depot","I.V. bolus")),
       numericInput("dose", label='Dose', value = 100,min=0),
+      
       br(),
       h4("Simulation details"),
       hr(),
