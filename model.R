@@ -21,42 +21,40 @@ library(mrgsolve)
 library(dplyr)
 library(ggplot2)
 
+##############################################
+## Covariate estimates 
+bw  <- 2000 # Birth weight (g)
+pna  <- 4 # Postnatal age (days)
+cw  <- 2000 # Current weight (g)
+nsaid <- 0 # Ibuprofen administration (1 - yes, 0 - no)
+
+
 ###############################################
 ### Dosing
 
-oral <- F
-dose <- 100 # mg
+inf <- T
+dose <- 100 * (cw/1000) # mg/kg
 
-# ###############################################
-# ## Parameter estimates 
-# ka  <- 1 # Absorption rate constant
-# cl  <- 1 # Clearance
-# vd  <- 1 # Central distribution volume
-# vd2 <- 1 # Peripheral distribution volume
-# q1  <- 1 # Inter-compartmental clearance (set to 0 for 1-cmt model)
+###############################################
+## Parameter estimates
+# these are provided in the model file
 
-##############################################
-## Covariate estimates 
-bw  <- 1000 # Absorption rate constant
-pna  <- 4 # Clearance
-cw  <- 1000 # Central distribution volume
-nsaid <- 1 # Peripheral distribution volume
+
 
 
 ###############################################
 ## Insert etas and sigmas
 
-etaka  <- 0.09
-etacl  <- 0.09
-etavd  <- 0.09
-etavd2 <- 0.09
-etaq1  <- 0.09
+etacl  <- 0.0899 # there is only IIV on CL
+etavd  <- 0.0000
+etavd2 <- 0.0000
+etaq1  <- 0.0000
 
 #################################################
 ## Insert residual error
 
-sigmaprop <- 0.01 # Proportional error
-sigmaadd  <- 0 # Additive error
+sigmaprop <- 0.0614 # Proportional error
+sigmaadd  <- 0.267 # Additive error
 
 ###############################3
 ## Simulation info
@@ -71,12 +69,12 @@ maxprobs=0.9
 ###################################################
 ############# Set Dosing objects
 
-if(oral){
-  ## Oral dose
-  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
+if(inf){
+  ## IV infusion for 1 h
+  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose,time=0)) 
 }else{
   ## IV BOLUS
-  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = 0,time=0)) 
+  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
 }
 
 ## Sort by ID and time
@@ -88,22 +86,17 @@ data <- Administration[order(Administration$ID,Administration$time),]
 mod <- mread_cache("amik_popPK")
 
 ## Specify the omegas and sigmas matrices
-omega <- cmat(etaka,
-              0, etacl,
-              0,0,etavd,
-              0,0,0,etavd2,
-              0,0,0,0,etaq1)
+omega <- cmat(etacl,
+              0,etavd,
+              0,0,etavd2,
+              0,0,0,etaq1)
 
 
 sigma <- cmat(sigmaprop,
               0,sigmaadd)
 
-# ## Set parameters in dataset
-# data$TVKA <- ka
-# data$TVCL <- cl
-# data$TVVC <- vd
-# data$TVVP1 <- vd2
-# data$TVQ1 <- q1
+## Set parameters in dataset
+# these will taken from the model file
 
 ## Set covariates in dataset
 data$BW <- bw
