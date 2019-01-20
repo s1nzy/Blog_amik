@@ -13,15 +13,15 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("PMX Solutions - Create a Shiny app for PK simulations"),
+  titlePanel("PMX Solutions - Create a Shiny app for amikacin simulations"),
   
   # Sidebar 
   sidebarLayout(
     sidebarPanel(
       h4("Dosing details"),
       hr(),
-      selectInput('admin', label='Route of administration', c("Depot","I.V. bolus")),
-      numericInput("dose", label='Dose', value = 100,min=0),
+      selectInput('admin', label='Route of administration', c("I.V. infusion","I.V. bolus")),
+      numericInput("dose", label='Dose', value = 10,min=0),
       
       br(),
       h4("Simulation details"),
@@ -34,9 +34,9 @@ shinyUI(fluidPage(
       br(),
       h4("Patient covariates"),
       hr(),
-      numericInput("bw", label='Birth weight (g)', value = 10,min=0),
-      numericInput("cw", label='Current weight (g)', value = 10,min=0),
-      numericInput("pna", label='Postnatal age (days)', value = 10,min=0),
+      numericInput("bw", label='Birth weight (g)', value = 1500,min=0),
+      numericInput("cw", label='Current weight (g)', value = 1500,min=0),
+      numericInput("pna", label='Postnatal age (days)', value = 2,min=0),
       numericInput("nsaid", label='Ibuprofen administration?', value = 1,min=0), # to be changed to multiple choice as it can only be 0 or 1
       
       br(),

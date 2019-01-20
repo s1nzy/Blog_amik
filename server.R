@@ -35,10 +35,10 @@ shinyServer(function(input, output) {
     
     ###############################################
     ### Dosing
-    if(input$admin =='Depot'){
-      oral <- T
+    if(input$admin =='I.V. infusion'){
+      inf <- T
     }else{
-      oral <- F
+      inf <- F
     }
     
     dose <- input$dose * cw/1000 # dose in mg/kg
@@ -77,12 +77,12 @@ shinyServer(function(input, output) {
     ###################################################
     ############# Set Dosing objects
     
-    if(oral){
-      ## Oral dose
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
+    if(inf){
+      ## I.V. infusion for 1 h
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = dose,time=0)) 
     }else{
       ## IV BOLUS
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = dose,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = 0,time=0)) 
     }
     
     
