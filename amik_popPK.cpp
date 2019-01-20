@@ -1,9 +1,9 @@
 $PARAM
 // typical parameters
-TVKA = 1, TVCL = 1, TVVC = 1, TVVP1 = 1, TVQ1 = 1
+TVKA = 0, TVCL = 0.062, TVVC = 0.918, TVVP1 = 0.918, TVQ1 = 0.062
 
 // covariates 
-BW = 1000, CW = 1000, PNA = 1, NSAID = 1
+BW = 1000, CW = 1000, PNA = 1, NSAID = 0
 
 $CMT GUT CENT P1
 
@@ -13,7 +13,7 @@ double KA = TVKA * exp(ETA(1));
 double CL = TVCL * pow(BW/1750, 1.1) * (1 + 0.128*(PNA/2)) * exp(ETA(2));
 double VC = TVVC * pow(CW/1760,0.929) * exp(ETA(3));
 double VP1 = TVVP1* pow(CW/1760,0.929) * exp(ETA(4));
-double Q1 = TVQ1 * pow(BW/1750, 1.1) * (1 + 0.128*(PNA/2))*exp(ETA(5));
+double Q1 = 0.785 * TVQ1 * pow(BW/1750, 1.1) * (1 + 0.128*(PNA/2))*exp(ETA(5));
 
 if(NSAID == 1) { 
     CL = CL * 0.838;
