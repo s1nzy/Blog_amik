@@ -23,9 +23,9 @@ library(ggplot2)
 
 ##############################################
 ## Covariate estimates 
-bw  <- 2000 # Birth weight (g)
+bw  <- 1250 # Birth weight (g)
 pna  <- 4 # Postnatal age (days)
-cw  <- 2000 # Current weight (g)
+cw  <- 1500 # Current weight (g)
 nsaid <- 0 # Ibuprofen administration (1 - yes, 0 - no)
 
 
@@ -33,9 +33,14 @@ nsaid <- 0 # Ibuprofen administration (1 - yes, 0 - no)
 ### Dosing
 
 inf <- T
-dose <- 16 * (cw/1000) # mg/kg
+dose <- 15 * (cw/1000) # mg/kg
+ii1 <- 24 # dosing interval in hours
+
+## Infusion duration
+
 d2 <- 20 # min 
 dur <- d2 / 60 # duration in hours 
+
 
 ###############################################
 ## Parameter estimates
@@ -48,9 +53,9 @@ dur <- d2 / 60 # duration in hours
 ## Insert etas and sigmas
 
 etacl  <- 0.0899 # there is only IIV on CL
-etavd  <- 0.0000
-etavd2 <- 0.0000
-etaq1  <- 0.0000
+etavd  <- 0
+etavd2 <- 0
+etaq1  <- 0
 
 #################################################
 ## Insert residual error
@@ -62,7 +67,7 @@ sigmaadd  <- 0.267 # Additive error
 ## Simulation info
 
 nsamples <- 1000 ### Number of simulated individuals
-sim_time <- 12 ## Time of simulation
+sim_time <- 120 ## Time of simulation
 
 # set probabilities of ribbon in figure
 minprobs=0.1
@@ -73,10 +78,10 @@ maxprobs=0.9
 
 if(inf){
   ## IV infusion 
-  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose/dur,time=0)) 
+  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=ii1, cmt=1, addl=9999, amt=dose, rate = dose/dur,time=0)) 
 }else{
   ## IV BOLUS
-  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
+  Administration <-  as.data.frame(ev(ID=1:nsamples,ii=ii1, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
 }
 
 ## Sort by ID and time
