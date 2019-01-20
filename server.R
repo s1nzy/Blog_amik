@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     ###############################################
     ## Insert etas and sigmas
     
-    etaka  <- input$etaka
+    #etaka  <- input$etaka
     etacl  <- input$etacl
     etavd  <- input$etav1
     etavd2 <- input$etav2
@@ -79,10 +79,10 @@ shinyServer(function(input, output) {
     
     if(inf){
       ## I.V. infusion for 1 h
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = dose,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = dose,time=0)) 
     }else{
       ## IV BOLUS
-      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=2, addl=9999, amt=dose, rate = 0,time=0)) 
+      Administration <-  as.data.frame(ev(ID=1:nsamples,ii=24, cmt=1, addl=9999, amt=dose, rate = 0,time=0)) 
     }
     
     
@@ -99,11 +99,10 @@ shinyServer(function(input, output) {
     
     
     ## Specify the omegas and sigmas matrices
-    omega <- cmat(etaka,
-                  0, etacl,
-                  0,0,etavd,
-                  0,0,0,etavd2,
-                  0,0,0,0,etaq1)
+    omega <- cmat(etacl,
+                  0,etavd,
+                  0,0,etavd2,
+                  0,0,0,etaq1)
     
     
     sigma <- cmat(sigmaprop,
