@@ -23,9 +23,9 @@ library(ggplot2)
 
 ##############################################
 ## Covariate estimates 
-bw  <- 1250 # Birth weight (g)
-pna  <- 4 # Postnatal age (days)
-cw  <- 1500 # Current weight (g)
+bw  <- 3520 # Birth weight (g)
+pna  <- 5 # Postnatal age (days)
+cw  <- 3400 # Current weight (g)
 nsaid <- 0 # Ibuprofen administration (1 - yes, 0 - no)
 
 
