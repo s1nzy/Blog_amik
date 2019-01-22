@@ -5,7 +5,8 @@
 ##################################################################################
 # Run-Time Environment:               R version 3.5.1
 # Author:			      M.J. van Esdonk
-# Short title:			      Pharmacokinetic simulations in R 
+# Adjustments:			S. Cristea
+# Short title:			      Pharmacokinetic simulations in R for amikacin
 # Version:			      V.1.0
 ##################################################################################
 ##################################################################################
